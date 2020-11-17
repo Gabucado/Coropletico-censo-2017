@@ -1,0 +1,86 @@
+/* :root {
+    --background: #FFFFFF;
+    --font-colors: #3C403D;
+    --over-background: #DADED4;
+    --unactive-item: #3C403D;
+    --active-item: #D3354C;
+} */
+:root {
+    --background: #3f3f3f;
+    --font-colors: #FFFFFF;
+    --over-background: #303030;
+    --tooltip-background: #242424 ;
+    --unactive-item: #3594d36e;
+    --active-item: #35a1d3;
+}
+/* background settings */
+body {
+    background-color: var(--background);
+}
+
+
+/* Map settings */
+.map-district {
+    fill: var(--unactive-item);
+    opacity: 1;
+    padding: 5px;
+}
+
+.map-district:hover{
+    fill: var(--active-item);
+    opacity: 1;
+}
+
+#svg-map {
+    background-color: var(--over-background);
+    border-radius: 50% 0 0 50%;
+}
+
+.flex-map-section {
+    display: flex;
+    flex-flow: row wrap;
+    align-content: center;
+}
+
+#tooltip {
+    /* https://css-tricks.com/make-a-smooth-shadow-friend/ */
+    box-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
+    position: absolute;
+    z-index: 10;
+    visibility: hidden;
+    color: var(--font-colors);
+    font-family: "Roboto";
+    background-color: var(--tooltip-background);
+    padding: 5px;
+    border-radius: 2px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+toolt_title {
+    font-family: "Roboto";
+    font-weight: bold;
+    font-size: large;
+}
+
+toolt_data {
+    font-family: "Roboto";
+    font-size: small;
+}
+
+toolt_head {
+    color: var(--font-colors);
+    font-family: "Roboto";
+    font-weight: lighter;
+    font-size: smaller;
+}
+
+/* .button {
+    background-color: ;
+} */
