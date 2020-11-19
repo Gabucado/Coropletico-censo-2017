@@ -6,81 +6,165 @@
     --active-item: #D3354C;
 } */
 :root {
-    --background: #3f3f3f;
-    --font-colors: #FFFFFF;
-    --over-background: #303030;
-    --tooltip-background: #242424 ;
-    --unactive-item: #3594d36e;
-    --active-item: #35a1d3;
+  --background: #3f3f3f;
+  --font-colors: #FFFFFF;
+  --over-background: #303030;
+  --tooltip-background: #242424 ;
+  --unactive-item: #3594d36e;
+  --active-item: #35a1d3;
+  --header-background: #242424;
 }
 /* background settings */
 body {
-    background-color: var(--background);
+  background-color: var(--background);
+}
+
+/* Headerrrrrr: https://www.w3schools.com/howto/howto_css_fixed_menu.asp */
+titulo {
+  font-family: "Roboto";
+  font-size: xx-large;
+  padding-bottom: 5px;
+}
+
+bajada {
+  font-family: "Roboto";
+  font-size: small;
+}
+
+#title-bar {
+  text-align: center;
+  overflow: hidden;
+  background-color: var(--header-background);
+  color: silver;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+#title-bar:hover {
+  background-color: var(--tooltip-background);
+  color: var(--font-colors);
 }
 
 
 /* Map settings */
 .map-district {
-    fill: var(--unactive-item);
-    opacity: 1;
-    padding: 5px;
-}
-
-.map-district:hover{
-    fill: var(--active-item);
-    opacity: 1;
+  fill: var(--tooltip-background);
+  opacity: 1;
+  padding: 5px;
 }
 
 #svg-map {
-    background-color: var(--over-background);
-    border-radius: 50% 0 0 50%;
+  background-color: var(--over-background);
+  border-radius: 50% 0 0 50%;
+}
+
+/* graph settings */
+
+.graph {
+  padding: 35px 0 35px 0;
+}
+
+text_graph_title {
+  font-family: "Roboto";
+  font-size: x-large;
+  color: var(--font-colors);
+  align-items: center;
+}
+
+bajada_graph {
+  font-family: "Roboto";
+  font-size: medium;
+  color: var(--font-colors);
+  text-align: center;
+}
+
+.graph {
+  background-color: var(--over-background);
+}
+
+#svg-graph0 {
+  border-radius: 0 12px 0 0;
+}
+
+#svg-graph1 {
+  border-radius: 0 0 12px 0;
+}
+
+/* containers */
+#main {
+  margin-top: 60px;
+  display: flex;
+  justify-content: space-around;
 }
 
 .flex-map-section {
-    display: flex;
-    flex-flow: row wrap;
-    align-content: center;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-#tooltip {
-    /* https://css-tricks.com/make-a-smooth-shadow-friend/ */
-    box-shadow:
-    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
-    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
-    0 12.5px 10px rgba(0, 0, 0, 0.06),
-    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
-    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
-    0 100px 80px rgba(0, 0, 0, 0.12);
-    position: absolute;
-    z-index: 10;
-    visibility: hidden;
-    color: var(--font-colors);
-    font-family: "Roboto";
-    background-color: var(--tooltip-background);
-    padding: 5px;
-    border-radius: 2px;
-    padding-left: 25px;
-    padding-right: 25px;
+
+.tooltip-class {
+  /* https://css-tricks.com/make-a-smooth-shadow-friend/ */
+  box-shadow:
+  0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+  0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+  0 12.5px 10px rgba(0, 0, 0, 0.06),
+  0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+  0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+  0 100px 80px rgba(0, 0, 0, 0.12);
+  position: absolute;
+  z-index: 10;
+  visibility: hidden;
+  color: var(--font-colors);
+  font-family: "Roboto";
+  background-color: var(--tooltip-background);
+  padding: 5px;
+  border-radius: 2px;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.stack-bar-0 {
+  fill: var(--active-item)
+}
+
+.stack-bar-1 {
+  fill: var(--unactive-item)
+}
+
+button {
+  background-color: var(--header-background);
+  border-color: var(--tooltip-background);
+  color: var(--font-colors);
+  font-size: small;
+  font-family: "Roboto";
+  padding: 0 20px 0 20px;
+}
+
+button:hover {
+  background-color: var(--over-background);
 }
 
 toolt_title {
-    font-family: "Roboto";
-    font-weight: bold;
-    font-size: large;
+  font-family: "Roboto";
+  font-weight: bold;
+  font-size: x-large;
 }
 
 toolt_data {
-    font-family: "Roboto";
-    font-size: small;
+  font-family: "Roboto";
+  font-size: small;
 }
 
 toolt_head {
-    color: var(--font-colors);
-    font-family: "Roboto";
-    font-weight: lighter;
-    font-size: smaller;
+  color: var(--font-colors);
+  font-family: "Roboto";
+  font-weight: lighter;
+  font-size: x-small;
 }
 
 /* .button {
-    background-color: ;
+  background-color: ;
 } */
