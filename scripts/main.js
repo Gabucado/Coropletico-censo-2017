@@ -276,8 +276,96 @@ function update_graphs(event, data) {
 
   // Tablas
   
+  const region_name = data_base[commune_target].ids.region[0] + data_base[commune_target].ids.region.slice(1).toLowerCase()
+  const province_name = data_base[commune_target].ids.province[0] + data_base[commune_target].ids.province.slice(1).toLowerCase()
+  const commune_name = data_base[commune_target].ids.commune[0] + data_base[commune_target].ids.commune.slice(1).toLowerCase()
 
-    
+  const html_0 = `<pre><center><text_graph_title>Dependencia</text_graph_title><br><bajada_graph>${region_name}, ${province_name}, ${commune_name}</bajada_graph></center></pre>`
+  d3.select("#graph_0").select(".graph_title")
+    .html(html_0)
+  
+  const html_1 = `<pre><center><text_graph_title>Naturaleza habitacional</text_graph_title><br><bajada_graph>${region_name}, ${province_name}, ${commune_name}</bajada_graph></center></pre>`
+  d3.select("#graph_1").select(".graph_title")
+    .html(html_1)
+
+  const subattr_gph0 = attributes_top[0],
+  attrs_gph0 = attributes_top[1];
+
+  const lenght_bar_0 = graph_size.width - (graph_size.margin.left),
+      height_bar_0 = graph_size.height - (graph_size.margin.top + graph_size.margin.bottom);
+
+  const data_graph_0 = [];
+  // Nacional
+  const national_data_graph0 = [0, 0, 0];
+  national_array.forEach(id => {
+    for(let i = 0; i < attrs_gph0.length; i++){
+      national_data_graph0[i] += data_base[id].data[subattr_gph0][attrs_gph0[i]]
+    };
+  });
+  // Regional
+  const regional_data_graph0 = [0, 0, 0];
+  region_array.forEach(id => {
+    for(let i = 0; i < attrs_gph0.length; i++){
+      regional_data_graph0[i] += data_base[id].data[subattr_gph0][attrs_gph0[i]]
+    }
+  });
+  // Comunal
+  const communal_data_graph0 = [0, 0, 0];
+  for(let i = 0; i < attrs_gph0.length; i++){
+    communal_data_graph0[i] += data_base[sector_id].data[subattr_gph0][attrs_gph0[i]]
+  }
+
+  const data_set_graph0 = [],
+    titles_stack_0 = ['Nacional', 'Regional', 'Comunal'],
+    keys_graph0 = {
+      dep_ju: "Juvenil",
+      dep_ve: "Vejez"
+  }; // Hardcodeado ;w;
+
+  [
+    national_data_graph0,
+    regional_data_graph0, 
+    communal_data_graph0
+  ].forEach((value, index) => {
+    let instance_graph0 = {};
+    Object.keys(keys_graph0).forEach((va, in_) => {
+      instance_graph0[keys_graph0[va]] = value[in_+1]/value[0]
+    });
+    instance_graph0["title"] = titles_stack_0[index]
+    data_set_graph0.push(instance_graph0)
+  })
+  const stacker_graph0 = d3
+    .stack()
+    .keys(Object.values(keys_graph0));
+
+  const series_graph0 = stacker_graph0(data_set_graph0);
+
+  const scale_color_graph0 = d3
+    .scaleOrdinal()
+    .domain(Object.values(keys_graph0))
+    .range([bar_colors.left, bar_colors.right])
+
+  const scaleX_graph0 = d3
+    .scaleLinear()
+    .domain([0, 1])
+    .range([lenght_bar_0, graph_size.margin.left]);
+
+  const scaleY = d3
+    .scaleBand()
+    .domain(d3.range(data_set_graph0.length))
+    .range([graph_size.margin.top, height_bar_0])
+    .padding(0.3);
+
+  svg = d3
+    .selectAll("g")
+      .data(uwu)
+      .selectAll(rect)
+        .data((d) => d)
+        .attr("x", (d, i) => scaleX_graph0(d[1]))
+        .attr("y", (d, i) => scaleY( i))
+        .attr("height", scaleY.bandwidth())
+        .attr("width", (d, i) => scaleX_graph0(d[0]) - scaleX_graph0(d[1]))
+
 
 }
 
@@ -538,7 +626,7 @@ function instance_graphs(attribute_pie_, attributes_top, attributes_bottom, grap
         .append("g")
           .attr("id", "g-graph0")
 
-          const subattr_gph0 = attributes_top[0],
+    const subattr_gph0 = attributes_top[0],
           attrs_gph0 = attributes_top[1];
   
     const lenght_bar_0 = graph_size.width - (graph_size.margin.left),
@@ -642,7 +730,6 @@ function instance_graphs(attribute_pie_, attributes_top, attributes_bottom, grap
   // chart 1 // Segundo atributo
 
   const html_1 = `<pre><center><text_graph_title>Naturaleza habitacional</text_graph_title><br><bajada_graph>${region_name}, ${province_name}, ${commune_name}</bajada_graph></center></pre>`
-
 
   d3.select("#graph_1")
     .append("div")
