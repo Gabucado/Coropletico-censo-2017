@@ -226,8 +226,8 @@ function update_graphs(event, data) {
   let svg = d3.select("#male-female-chart").selectAll("path")
   const arcs = d3
           .arc()
-          .innerRadius((map_visualizer.width/2)-40 - 5)
-          .outerRadius((map_visualizer.width/2)-20 - 5)
+          .innerRadius((map_visualizer.width/2) - 60 - 10)
+          .outerRadius((map_visualizer.width/2) - 40 - 10)
           .cornerRadius(1),
         pie = d3
           .pie()
@@ -265,8 +265,8 @@ function update_graphs(event, data) {
   const regional_arc_data = pie(data_pie_regional),
         regional_arcs = d3
           .arc()
-          .innerRadius((map_visualizer.width/2)-20)
-          .outerRadius((map_visualizer.width/2))
+          .innerRadius((map_visualizer.width/2)-40 - 5)
+          .outerRadius((map_visualizer.width/2)-20 - 5)
           .cornerRadius(1)
   
   svg
@@ -288,11 +288,11 @@ function update_graphs(event, data) {
   d3.select("#graph_1").select(".graph_title")
     .html(html_1)
 
-  const subattr_gph0 = attributes_top[0],
-  attrs_gph0 = attributes_top[1];
+  const subattr_gph0 = attribute_top_[0],
+        attrs_gph0 = attribute_top_[1];
 
-  const lenght_bar_0 = graph_size.width - (graph_size.margin.left),
-      height_bar_0 = graph_size.height - (graph_size.margin.top + graph_size.margin.bottom);
+  const lenght_bar_0 = graph_visualizer.width - (graph_visualizer.margin.left),
+      height_bar_0 = graph_visualizer.height - (graph_visualizer.margin.top + graph_visualizer.margin.bottom);
 
   const data_graph_0 = [];
   // Nacional
@@ -340,32 +340,103 @@ function update_graphs(event, data) {
 
   const series_graph0 = stacker_graph0(data_set_graph0);
 
-  const scale_color_graph0 = d3
-    .scaleOrdinal()
-    .domain(Object.values(keys_graph0))
-    .range([bar_colors.left, bar_colors.right])
-
   const scaleX_graph0 = d3
     .scaleLinear()
     .domain([0, 1])
-    .range([lenght_bar_0, graph_size.margin.left]);
+    .range([lenght_bar_0, graph_visualizer.margin.left]);
 
   const scaleY = d3
     .scaleBand()
     .domain(d3.range(data_set_graph0.length))
-    .range([graph_size.margin.top, height_bar_0])
+    .range([graph_visualizer.margin.top, height_bar_0])
     .padding(0.3);
 
-  svg = d3
-    .selectAll("g")
-      .data(uwu)
-      .selectAll(rect)
+  console.log(series_graph0)
+  const svg_1 = d3
+    .select("#g-graph0")
+      .selectAll("g")
+      .data(series_graph0)
+        .selectAll("rect")
         .data((d) => d)
-        .attr("x", (d, i) => scaleX_graph0(d[1]))
-        .attr("y", (d, i) => scaleY( i))
-        .attr("height", scaleY.bandwidth())
-        .attr("width", (d, i) => scaleX_graph0(d[0]) - scaleX_graph0(d[1]))
+          .transition().duration(250)
+          .attr("x", (d, i) => scaleX_graph0(d[1]))
+          .attr("y", (d, i) => scaleY(i))
+          .attr("height", scaleY.bandwidth())
+          .attr("width", (d, i) => scaleX_graph0(d[0]) - scaleX_graph0(d[1]))
+  
+  const subattr_gph1 = attribute_bottom_[0],
+        attrs_gph1 = attribute_bottom_[1];
 
+  const lenght_bar_1 = graph_visualizer.width - (graph_visualizer.margin.left),
+        height_bar_1 = graph_visualizer.height - (graph_visualizer.margin.top + graph_visualizer.margin.bottom);
+
+  // Nacional
+  const national_data_graph1 = [0, 0, 0];
+  national_array.forEach(id => {
+    for(let i = 0; i < attrs_gph1.length; i++){
+      national_data_graph1[i] += data_base[id].data[subattr_gph1][attrs_gph1[i]]
+    };
+  });
+  // Regional
+  const regional_data_graph1 = [0, 0, 0];
+  region_array.forEach(id => {
+    for(let i = 0; i < attrs_gph1.length; i++){
+      regional_data_graph1[i] += data_base[id].data[subattr_gph1][attrs_gph1[i]]
+  }});
+  // Comunal
+  const communal_data_graph1 = [0, 0, 0];
+  for(let i = 0; i < attrs_gph1.length; i++){
+    communal_data_graph1[i] += data_base[sector_id].data[subattr_gph1][attrs_gph1[i]]
+  }
+
+  const data_set_graph1 = [],
+        titles_stack_1 = ['Nacional', 'Regional', 'Comunal'],
+        keys_graph1 = {
+          colective: "Colectivo",
+          particular: "Particular"
+  }; // Hardcodeado ;w;
+  
+  [
+    national_data_graph1,
+    regional_data_graph1, 
+    communal_data_graph1
+  ].forEach((value, index) => {
+    let instance_graph1 = {};
+    Object.keys(keys_graph1).forEach((va, in_) => {
+      instance_graph1[keys_graph1[va]] = value[in_+1]/value[0]
+    })
+    instance_graph1["title"] = titles_stack_1[index]
+    data_set_graph1.push(instance_graph1)
+  })
+
+  const stacker_graph1 = d3
+    .stack()
+    .keys(Object.values(keys_graph1));
+  
+  const series_graph1 = stacker_graph1(data_set_graph1);
+  
+  const scaleX_graph1 = d3
+    .scaleLinear()
+    .domain([0, 1])
+    .range([lenght_bar_1, graph_visualizer.margin.left]);
+
+  const scaleY1 = d3
+    .scaleBand()
+    .domain(d3.range(data_set_graph1.length))
+    .range([graph_visualizer.margin.top, height_bar_1])
+    .padding(0.3);
+
+  const svg_2 = d3
+  .select("#g-graph1")
+    .selectAll("g")
+    .data(series_graph1)
+      .selectAll("rect")
+      .data((d) => d)
+        .transition().duration(250)
+        .attr("x", (d, i) => scaleX_graph1(d[1]))
+        .attr("y", (d, i) => scaleY1(i))
+        .attr("height", scaleY.bandwidth())
+        .attr("width", (d, i) => scaleX_graph1(d[0]) - scaleX_graph0(d[1]))
 
 }
 
@@ -406,35 +477,49 @@ function tooltip_filler(data, type) {
         const html = `<pre><toolt_head>Poblacion regional por genero</toolt_head><br><toolt_title>${genre}:&#09 ${value}</tootl_title></pre>`;
         return html;
       } else {
-        if (type === "line_chart_0") {
-          const cls_list = data[0].originalTarget.classList,
-                valuable_data = data[1].data
-                magnitude = cls_list[1],
-                group = cls_list[0];
-          const magnitude_name = valuable_data.title.toLowerCase();
-          let group_name = "";
-          if (group === "stack-bar-0"){
-            group_name = "Juvenil";
+        if (type==="pie_male/female_national"){
+          const category = data.data.categoria,
+          value = data.value;
+          let genre = "";
+          if (category === "females"){
+            genre = "Femenina";
           } else {
-            group_name = "Vejez";
-          }
-          const html = `<pre><toolt_head>Depenencia a nivel ${magnitude_name}</toolt_head><br><toolt_title>${group_name} es de ${(valuable_data[group_name]*100).toFixed(2)}%</toolt_title></pre>`
-          return html
+            genre = "Masculina";
+          };
+          const html = `<pre><toolt_head>Poblacion nacional por genero</toolt_head><br><toolt_title>${genre}:&#09 ${value}</tootl_title></pre>`;
+          return html;
         } else {
-          if (type === "line_chart_1") {
+          if (type === "line_chart_0") {
             const cls_list = data[0].originalTarget.classList,
-                valuable_data = data[1].data
-                magnitude = cls_list[1],
-                group = cls_list[0];
+                  valuable_data = data[1].data
+                  magnitude = cls_list[1],
+                  group = cls_list[0];
+            // console.log(data[1]);
             const magnitude_name = valuable_data.title.toLowerCase();
             let group_name = "";
-            if (group === "stack-bar-1"){
-              group_name = "Particular";
+            if (group === "stack-bar-0"){
+              group_name = "Juvenil";
             } else {
-              group_name = "Colectivo";
+              group_name = "Vejez";
             }
-            const html = `<pre><toolt_head>Naturaleza de vivienda a nivel ${magnitude_name}</toolt_head><br><toolt_title>${group_name} es de ${(valuable_data[group_name]*100).toFixed(2)}%</toolt_title></pre>`
+            const html = `<pre><toolt_head>Depenencia a nivel ${magnitude_name}</toolt_head><br><toolt_title>${group_name} es de ${(valuable_data[group_name]*100).toFixed(2)}%</toolt_title></pre>`
             return html
+          } else {
+            if (type === "line_chart_1") {
+              const cls_list = data[0].originalTarget.classList,
+                  valuable_data = data[1].data
+                  magnitude = cls_list[1],
+                  group = cls_list[0];
+              const magnitude_name = valuable_data.title.toLowerCase();
+              let group_name = "";
+              if (group === "stack-bar-1"){
+                group_name = "Particular";
+              } else {
+                group_name = "Colectivo";
+              }
+              const html = `<pre><toolt_head>Naturaleza de vivienda a nivel ${magnitude_name}</toolt_head><br><toolt_title>${group_name} es de ${(valuable_data[group_name]*100).toFixed(2)}%</toolt_title></pre>`
+              return html
+            }
           }
         }
       }
@@ -508,8 +593,8 @@ function instance_graphs(attribute_pie_, attributes_top, attributes_bottom, grap
           .attr("transform", "translate(" + map_visualizer.width/2 + ", " + map_visualizer.height/2 + ")"),
         arcs = d3
           .arc()
-          .innerRadius((map_visualizer.width/2)-40 - 5)
-          .outerRadius((map_visualizer.width/2)-20 - 5)
+          .innerRadius((map_visualizer.width/2)-60 - 10)
+          .outerRadius((map_visualizer.width/2)-40 - 10)
           .cornerRadius(1),
         pie = d3
           .pie()
@@ -556,11 +641,18 @@ function instance_graphs(attribute_pie_, attributes_top, attributes_bottom, grap
   }
   const attrs_reg_0 = d3.sum(region_array, (d) => data_base[d].data[subattr_pie][attrs_pie[0]]);
   const attrs_reg_1 = d3.sum(region_array, (d) => data_base[d].data[subattr_pie][attrs_pie[1]]);
+  const attrs_nat_0 = d3.sum(national_array, (d)=> data_base[d].data[subattr_pie][attrs_pie[0]]);
+  const attrs_nat_1 = d3.sum(national_array, (d)=> data_base[d].data[subattr_pie][attrs_pie[1]]);
   const data_pie_regional = [
     {categoria: attrs_pie[0], value: attrs_reg_0},
     {categoria: attrs_pie[1], value: attrs_reg_1}
   ];
+  const data_pie_national = [
+    {categoria: attrs_pie[0], value: attrs_nat_0},
+    {categoria: attrs_pie[1], value: attrs_nat_1}
+  ];
   const regional_arc_data = pie(data_pie_regional)
+  const national_arc_data = pie(data_pie_national)
   
   const regional_pie_svg = d3
     .select("#svg-map")
@@ -569,8 +661,8 @@ function instance_graphs(attribute_pie_, attributes_top, attributes_bottom, grap
       .attr("transform", "translate(" + map_visualizer.width/2 + ", " + map_visualizer.height/2 + ")"),
     regional_arcs = d3
       .arc()
-      .innerRadius((map_visualizer.width/2)-20)
-      .outerRadius((map_visualizer.width/2))
+      .innerRadius((map_visualizer.width/2) - 40 - 5)
+      .outerRadius((map_visualizer.width/2) - 20 - 5)
       .cornerRadius(1)
 
   regional_pie_svg
@@ -596,7 +688,42 @@ function instance_graphs(attribute_pie_, attributes_top, attributes_bottom, grap
       .transition().duration(1000)
       .attr("d", (d) => regional_arcs(d))
       .attr("fill", (d) => pie_colors[d.data.categoria])
-  
+
+  const national_pie_svg = d3
+    .select("#svg-map")
+      .append("g")
+      .attr("id", "male-female-chart-regional")
+      .attr("transform", "translate(" + map_visualizer.width/2 + ", " + map_visualizer.height/2 + ")"),
+    national_arcs = d3
+      .arc()
+      .innerRadius((map_visualizer.width/2) - 20)
+      .outerRadius((map_visualizer.width/2))
+      .cornerRadius(1);
+
+  national_pie_svg
+    .selectAll('path')
+    .data(national_arc_data, (d)=> d.categoria)
+    .enter()
+    .append("path")
+      .attr("class", "arc")
+    .on("mouseover", (_, data) => {
+      d3.select("#tooltip")
+          .html(tooltip_filler(data, "pie_male/female_national"))
+          .style("visibility", "visible");
+      })
+    .on("mousemove", (event, _) => {
+      d3.select("#tooltip")
+        .style("top", (event.pageY-20)+"px")
+        .style("left",(event.pageX+20)+"px")
+      })
+    .on("mouseout", () => {
+      d3.select("#tooltip")
+          .style("visibility", "hidden");
+      })
+      .transition().duration(1000)
+      .attr("d", (d) => national_arcs(d))
+      .attr("fill", (d) => pie_colors[d.data.categoria])
+
   // text data// Idea desechada
   // title_svg = d3.select("#svg-map")
   //   .append("g")

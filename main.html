@@ -10,13 +10,55 @@
     <link href="styles/style.css" rel="stylesheet" />
   </head>
   <body>
-    <div id="title-bar"><titulo>Censo Chile 2017</titulo><br><bajada>Entrega 3: Infoviz</bajada></div>
-    <div id="main">
-      <div id="map" class="flex-main-item"></div>
-      <div id="infovis" class="flex-main-item">
-        <div id="graph_0" class="lateral_graph"></div>
-        <div id="graph_1" class="lateral_graph"></div>
+    <div id="document_container">
+      <div id="title-bar"><titulo>Censo Chile 2017</titulo><br><bajada>Entrega 3: Infoviz</bajada></div>
+      <div id="main">
+        <div id="map" class="flex-main-item"></div>
+        <div id="infovis" class="flex-main-item">
+          <div id="graph_0" class="lateral_graph"></div>
+          <div id="graph_1" class="lateral_graph"></div>
+        </div>
       </div>
+      <div id="informe-wrapper">
+        <div id=informe>
+        <title_informe>Informe de decisiones de diseño</title_informe>
+
+        <ul class="lista">
+          <li>
+            El atributo elegido para representar en el mapa coroplético fue el de población, dado a que representa una forma directa de comparar las poblaciones absolutas 
+            entre las comunas independiente de su densidad. Además, la población total es un estadístico suficiente para poder apreciar cuanta gente se puede encontrar por comuna.
+            <br>
+            El colormap utilizado para esta representación fue elegido considerando el contraste que tendrá con el fondo del mapa. Por un lado, las comunas que no tienen una poblacion relativa alta, tienden a relacionarse entre ellas 
+            con una "baja potencia" del color, por otro lado, lo opuesto ocurre con las comunas con una alta población.
+          </li>
+          <li>
+            La proyección cartográfica utilizada es la de Mercator. Esta elección se sustenta en lo aprendido en clases, lo que buscaba con el mapa era conservar la forma familiar de las figuras a mostrar en el gráfico.
+          </li>
+          <li>
+            La forma de realizar zoom sobre el mapa es, utilizando los botones en la base de este o bien: 
+            <ol>
+              <li>Colocar el mouse sobre el gráfico.</li>
+              <li>Doble click (sólo para zoom in), realizar el gesto de pinchar con ambos dedos y separar/juntar ó hacer scroll con la rueda del mouse.</li>
+            </ol>
+            Para realizar Panning sobre el mapa, se puede realizar un click en cualquier zona del mapa no cubierta por otro elemento gráfico (como las barras) y arrastrar.
+          </li>
+          <li>
+            Para ver datos de una comuna se puede hacer colocar el mouse sobre la representación gráfica de la comuna en el mapa; con lo anterior se desplegará un comentario sobre los datos de la comuna. Si se hace click sobre el espacio de la comuna, los gráficos
+            a los lados del mapa y el adjunto en este se actualizarán, mostrando datos específicos de esta comuna, al acumulado de región y al nacional.
+          </li>
+          <li>
+            Los idioms de la segunda vista son 3 barras apiladas, orientadas horizontalmente. Representan la relación entre dos tipos de poblaciones declaradas en el título. El orden de magnitud acumulada de esta relación es: Nacional, Regional, Comunal, por lo que, al cambiar de comuna con la seleccion, no se notarán cambios en la primera linea.<br>
+            La barra adjunta al mapa representa la relación de frecuencia de genero biológico entre hombres y mujeres siguiendo el orden desde el exterior al interior nacional, regional y comunal, entendiendo que una cantidad contiene a la otra.<br>
+            En todas las barras existe la dinámica del recuadro de comentario que, al posicionar el mouse sobre una sección del gráfico, aparece, mostrando un comentario sobre los datos.
+          </li>
+          <li>
+            La organización espacial de las vistas fue realizada teniendo en cuenta la idea de maxima simplicidad. Dado a esto se prefirió implementar un cuadro te texto flotante que acompaña al mouse a demanda del usuario. En la sección del mapa, se prefirió posicionar el mapa a la izquierda dada a la dispoción de los datos geográficos que se caracterizaron, particularmente, por ser más cargados en este lado del recuadro. Para no desaprovechar el espacio cedido por el mapa, se decidió colocar una visualización de datos demográficos simple.<br>
+            Respecto a la dispoción de los datos adjuntados a la derecha de la visualización, se prefirió usar una vista consistente entre ambos, dado a que ambos gráficos tienen el mismo objetivo, expresar una relación entre dos grupos.
+          </li>
+        </ul>
+        Entre otras cosas, se menciona que la visualización podría mejorar al implementar de mejor forma los datos presentados en las barras, dado a que la proporción es una proporción solo aplicable a un subset de la población total por sector. Es decir, se puede confundir el siguiente dato: "50%", respecto a que cantidad aplicarla. Además, pareciera que esta visualización se ve mejor usando Firefox.
+      </div>
+    </div>
     </div>
   </body>
   <script src="scripts/main.js"></script>
